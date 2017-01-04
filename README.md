@@ -27,8 +27,8 @@ alexa-app-kegbot is an [alexa-app](https://github.com/matt-kruse/alexa-app) modu
   1. `cp -R ~/node_modules/alexa-app-server/examples/ ~/node_modules/alexa-app-server/api/`
   1. `rm -rf ~/node_modules/alexa-app-server/api/apps/*`
   1. `cd ~/node_modules/alexa-app-server/api/apps/`
-1. Clone Repo: `git clone https://github.org/patfreeman/alexa-app-server-kegbot.git`
-  1. `cd alexa-app-server-kegbot`
+1. Clone Repo: `git clone https://github.com/patfreeman/alexa-app-kegbot.git`
+  1. `cd alexa-app-kegbot`
   1. `cp config_example.js config.js`
   1. `vi config.js`
     1. Set your Kegbot configuration. Protocol, host, port, API key (if required)
