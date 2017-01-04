@@ -37,36 +37,14 @@ For a more corporate friendly setup, maybe the Lambda version is better: [alexa-
 1. Configure alexa-app-server
   1. `cd ~/node_modules/alexa-app-server/api`
   1. `vi server.js`
-    1. Configure the SSL port to listen on. Insert these lines before the port: line
-	httpsEnabled : true,
-        httpsPort : 8443,
-        privateKey:'private-key.pem',
-        certificate:'certificate.pem',
+    1. Configure the SSL port to listen on. Insert this line before the 'port:' line.
+`httpsEnabled : true, httpsPort : 8443, privateKey:'private-key.pem', certificate:'certificate.pem',`
   1. Generate the SSL cert by following the directions on https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/testing-an-alexa-skill#create-a-private-key-and-self-signed-certificate-for-testing
-    1. mkdir sslcert
-    1. cd sslcert
-    1. openssl genrsa -out private-key.pem 2048
-    1. `vi configuration.cnf` only change the options in the req_distinguished_name and subject_alternate_names stanzas to match your external DNS name
-	[req]
-	distinguished_name = req_distinguished_name
-	x509_extensions = v3_req
-	prompt = no
-	
-	[req_distinguished_name]
-	C = US
-	ST = Provide your two letter state abbreviation
-	L = Provide the name of the city in which you are located
-	O = Provide a name for your organization
-	CN = Provide a name for the skill
-	
-	[v3_req]
-	keyUsage = keyEncipherment, dataEncipherment
-	extendedKeyUsage = serverAuth
-	subjectAltName = @subject_alternate_names
-	
-	[subject_alternate_names]
-	DNS.1 = Provide your fully qualified domain name
-    1. openssl req -new -x509 -days 365 -key private-key.pem -config configuration.cnf -out certificate.pem
+    1. `mkdir sslcert`
+    1. `cd sslcert`
+    1. `openssl genrsa -out private-key.pem 2048`
+    1. `vi configuration.cnf` only change the options in the req_distinguished_name and subject_alternate_names stanzas to match your external DNS name (see example file from amazon documentation) 
+    1. `openssl req -new -x509 -days 365 -key private-key.pem -config configuration.cnf -out certificate.pem`
   1. Start alexa-app-server
     1. `cd ~/node_modules/alexa-app-server/api`
     1. `node server.js`
