@@ -3,6 +3,8 @@ alexa-app-kegbot is an [alexa-app](https://github.com/matt-kruse/alexa-app) modu
 * What's on tap?
 * How much is left?
 
+For a more corporate friendly setup, maybe the Lambda version is better: [alexa-lambda-kegbot](https://github.com/patfreeman/alexa-lambda-kegbot)
+
 ### Requirements
 * node - NodeJS http://nodejs.org
 * request - NodeJS package https://www.npmjs.com/package/request
