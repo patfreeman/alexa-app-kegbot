@@ -15,9 +15,9 @@ var app = new alexa.app(appName);
 app.launch(function(request,response) {
     // Store the Launch Intent in session, which later keeps the session going for multiple requests/commands
     response.session ('launched', 'true');
-    
+
     response.say(config.greeting);
-    
+
     response.shouldEndSession(false, "How can I help?");
 });
 
@@ -28,7 +28,7 @@ app.sessionEnded(function(request,response) {
 app.messages.NO_INTENT_FOUND = "I am uncertain what you mean.  Kindly rephrase...";
 
 // Pre-execution security checks - ensure each requests applicationId match configured values
-app.pre = function(request,response,type) {    
+app.pre = function(request,response,type) {
     // Extract values from various levels of the nested request object
     var address = request.data.remoteAddress;
     var password = request.data.password;
@@ -36,10 +36,10 @@ app.pre = function(request,response,type) {
     var requestId = request.data.request.requestId;
     var sessionId = request.sessionId;
     var applicationId = request.sessionDetails.application.applicationId;
-    
+
     // Log the request
     console.log(address + ' - ' + timestamp + ' - ' + ' AWS ASK ' + type + ' received: ' + requestId + ' / ' + sessionId);
-    
+
     if (applicationId !== config.applicationId) {
         console.log(address + ' - ' + timestamp + ' - ERROR: Invalid application ID in request:' + applicationId);
         response.fail("Invalid application ID");
@@ -51,24 +51,32 @@ app.intent('onTap', {
     "utterances":config.utterances.onTap},
     function(request,response) {
         console.log('REQUEST: onTap Intent');
-        var keg = KB.getCurrentKeg();
-	if (keg) {
-            replyWith(appName + ' has ' + keg.type.name + ' on tap', response);
-        } else {
-            replyWith(appName + ' has no beer on tap', response);
-        }
+        KB.getCurrentKeg(function (err, keg) {
+            if (err) {
+                replyWith(appName + ' is unable to connect to your keg bot server', response);
+            } else if (keg) {
+                replyWith(appName + ' has ' + keg.type.name + ' on tap', response);
+            } else {
+                replyWith(appName + ' has no beer on tap', response);
+            }
+        });
+        return false;
     });
 
 app.intent('Volume', {
     "utterances":config.utterances.volume},
     function(request,response) {
         console.log('REQUEST: volume Intent');
-        var keg = KB.getCurrentKeg();
-	if (keg) {
-            replyWith(appName + ' has ' + keg.percent_full + ' percent of ' + keg.type.name + ' left', response);
-        } else {
-            replyWith(appName + ' has no beer on tap', response);
-        }
+        KB.getCurrentKeg(function (err, keg) {
+            if (err) {
+                replyWith(appName + ' is unable to connect to your keg bot server', response);
+            } else if (keg) {
+                replyWith(appName + ' has ' + keg.percent_full.toPrecision(2) + ' percent of ' + keg.type.name + ' left', response);
+            } else {
+                replyWith(appName + ' has no beer on tap', response);
+            }
+        });
+        return false;
     });
 
 app.intent('HelpIntent',
@@ -83,18 +91,18 @@ app.intent('HelpIntent',
 function replyWith(speechOutput,response) {
     // Log the response to console
     console.log('RESPONSE: ' + speechOutput);
-    
+
     // 'Say' the response on the ECHO
     response.say(speechOutput);
-    
+
     // Show a 'Card' in the Alexa App
     response.card(appName,speechOutput);
-    
+
     // If this is a Launch request, do not end session and handle multiple commands
-    if (response.session ('launched') === 'true') { 
-        response.shouldEndSession (false); 
+    if (response.session ('launched') === 'true') {
+        response.shouldEndSession (false);
     }
-    
+
     // 'Send' the response to end upstream asynchronous requests
     response.send();
 }
