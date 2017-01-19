@@ -1,0 +1,59 @@
+onTap	what is on
+onTap	what beer is on
+onTap	what is on tap
+onTap	what beer is on tap
+onTap	what is pouring
+onTap	what beer is pouring
+onTap	what is on number {TapNumber}
+onTap	what beer is on number {TapNumber}
+onTap	what is on tap number {TapNumber}
+onTap	what beer is on tap number {TapNumber}
+Volume	what percent is left
+Volume	what percentage is left
+Volume	what percent is left in the keg
+Volume	what percentage is left in the keg
+Volume	what percent is the keg at
+Volume	what percentage is the keg at
+Volume	what is the keg percentage
+Volume	what is the beer percentage
+Volume	how much beer is left
+Volume	how much is left
+Volume	how much beer is there
+Volume	how much is there
+Volume	what percent is left in keg {TapNumber}
+Volume	what percentage is left in keg {TapNumber}
+Volume	what percent is left in tap {TapNumber}
+Volume	what percentage is left in tap {TapNumber}
+Volume	what percent is left in keg number {TapNumber}
+Volume	what percentage is left in keg number {TapNumber}
+Volume	what percent is left in tap number {TapNumber}
+Volume	what percentage is left in tap number {TapNumber}
+Volume	what is the keg percentage in keg {TapNumber}
+Volume	what is the beer percentage in keg {TapNumber}
+Volume	what is the keg percentage in tap {TapNumber}
+Volume	what is the beer percentage in tap {TapNumber}
+Volume	what is the keg percentage in keg number {TapNumber}
+Volume	what is the beer percentage in keg number {TapNumber}
+Volume	what is the keg percentage in tap number {TapNumber}
+Volume	what is the beer percentage in tap number {TapNumber}
+Volume	how much is left in keg {TapNumber}
+Volume	how much beer is left in keg {TapNumber}
+Volume	how much is there in keg {TapNumber}
+Volume	how much beer is there in keg {TapNumber}
+Volume	how much is left in tap {TapNumber}
+Volume	how much beer is left in tap {TapNumber}
+Volume	how much is there in tap {TapNumber}
+Volume	how much beer is there in tap {TapNumber}
+Volume	how much is left in keg number {TapNumber}
+Volume	how much beer is left in keg number {TapNumber}
+Volume	how much is there in keg number {TapNumber}
+Volume	how much beer is there in keg number {TapNumber}
+Volume	how much is left in tap number {TapNumber}
+Volume	how much beer is left in tap number {TapNumber}
+Volume	how much is there in tap number {TapNumber}
+Volume	how much beer is there in tap number {TapNumber}
+HelpIntent	to help me
+HelpIntent	help me
+HelpIntent	to help
+HelpIntent	help
+HelpIntent	for help
