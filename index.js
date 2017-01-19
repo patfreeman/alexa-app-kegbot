@@ -48,14 +48,36 @@ app.pre = function(request,response,type) {
 
 /*************** Define ALEXA ASK Intents *****************************/
 app.intent('onTap', {
+    "slots":{"TapNumber":"AMAZON.NUMBER"},
     "utterances":config.utterances.onTap},
     function(request,response) {
         console.log('REQUEST: onTap Intent');
-        KB.getCurrentKeg(function (err, keg) {
+        var TapNumber = request.slot('TapNumber');
+        KB.getCurrentKeg(function (err, kegs) {
             if (err) {
                 replyWith(appName + ' is unable to connect to your keg bot server', response);
-            } else if (keg) {
-                replyWith(appName + ' has ' + keg.type.name + ' on tap', response);
+            } else if (TapNumber && (TapNumber > kegs.length || TapNumber < 1)) {
+                replyWith(appName + ' only has ' + kegs.length + ' taps', response);
+            } else if (TapNumber && TapNumber <= kegs.length) {
+                var keg = kegs[(TapNumber - 1)];
+                if (keg == undefined) {
+                    replyWith(appName + ' has nothing on tap number ' + TapNumber, response);
+                } else {
+                    replyWith(appName + ' has ' + keg.type.name + ' on tap number ' + TapNumber, response);
+                }
+            } else if (kegs) {
+                speechOutput = appName;
+                kegs.forEach(function (keg, index) {
+                    if (keg == undefined) { return; }
+		    if (kegs.length > 1 && index === kegs.length - 1) {
+                        speechOutput += ' and ';
+                    }
+                    speechOutput += ' has ' + keg.type.name + ' on tap';
+                    if (kegs.length > 1 ) {
+                        speechOutput += ' number ' + (index + 1);
+                    }
+                });
+                replyWith(speechOutput, response);
             } else {
                 replyWith(appName + ' has no beer on tap', response);
             }
@@ -64,14 +86,43 @@ app.intent('onTap', {
     });
 
 app.intent('Volume', {
+    "slots":{"TapNumber":"AMAZON.NUMBER"},
     "utterances":config.utterances.volume},
     function(request,response) {
         console.log('REQUEST: volume Intent');
-        KB.getCurrentKeg(function (err, keg) {
+        var TapNumber = request.slot('TapNumber');
+        KB.getCurrentKeg(function (err, kegs) {
             if (err) {
                 replyWith(appName + ' is unable to connect to your keg bot server', response);
-            } else if (keg) {
-                replyWith(appName + ' has ' + keg.percent_full.toPrecision(2) + ' percent of ' + keg.type.name + ' left', response);
+            } else if (TapNumber && (TapNumber > kegs.length || TapNumber < 1)) {
+                replyWith(appName + ' only has ' + kegs.length + ' taps', response);
+            } else if (TapNumber && TapNumber <= kegs.length) {
+                var keg = kegs[(TapNumber - 1)];
+                if (keg == undefined) {
+                    replyWith(appName + ' has nothing on tap number ' + TapNumber, response);
+                } else if (keg.percent_full == 100) {
+                    replyWith(appName + ' has a full keg of ' + keg.type.name + ' on tap number ' + TapNumber, response);
+                } else {
+                    replyWith(appName + ' has ' + keg.percent_full.toPrecision(2) + ' percent of ' + keg.type.name + ' on tap number ' + TapNumber, response);
+                }
+            } else if (kegs) {
+                speechOutput = appName;
+                kegs.forEach(function (keg, index) {
+                    if (keg == undefined) { return; }
+		    if (kegs.length > 1 && index === kegs.length - 1) {
+                        speechOutput += ' and ';
+                    }
+                    if (keg.percent_full == 100) {
+                        speechOutput += ' has a full keg of ' + keg.type.name;
+                    } else {
+                        speechOutput += ' has ' + keg.percent_full.toPrecision(2) + ' percent of '
+                        + keg.type.name;
+                    }
+                    if (kegs.length > 1 ) {
+                        speechOutput += ' on tap number ' + (index + 1) + '. ';
+                    }
+                });
+                replyWith(speechOutput, response);
             } else {
                 replyWith(appName + ' has no beer on tap', response);
             }
