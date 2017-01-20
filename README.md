@@ -34,6 +34,7 @@ For a more corporate friendly setup, maybe the Lambda version is better: [alexa-
   1. `cp config_example.js config.js`
   1. `vi config.js`
     1. Set your Kegbot configuration. Protocol, host, port, API key (if required)
+    1. Set your Alexa App ID which you noted in step 1.iv.
 1. Configure alexa-app-server
   1. `cd ~/node_modules/alexa-app-server/api`
   1. `vi server.js`
@@ -55,7 +56,7 @@ For a more corporate friendly setup, maybe the Lambda version is better: [alexa-
 1. Go back to Alexa Skill setup on https://developer.amazon.com/
   1. Interation Model
     1. Paste the Schema textbox content from the other tab into Intent Schema
-    1. Paste the Utterances textbox content from the other tab into Sample Utterances
+    1. Paste the contents of [sample_utterances.txt](sample_utterances.txt) into Sample Utterances. This a workaround for this [issue](https://github.com/alexa-js/alexa-utterances/issues/6).
     1. Next
   1. Configuration
     1. Choose HTTPS
