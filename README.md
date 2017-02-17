@@ -56,6 +56,7 @@ For a more corporate friendly setup, maybe the Lambda version is better: [alexa-
 1. Go back to Alexa Skill setup on https://developer.amazon.com/
   1. Interation Model
     1. Paste the Schema textbox content from the other tab into Intent Schema
+    1. Click Add Slot Type. Enter Type: UNITS_TYPE and paste the contents of [units_type.txt](units_type.txt) into the Enter Values box.
     1. Paste the contents of [sample_utterances.txt](sample_utterances.txt) into Sample Utterances. This a workaround for this [issue](https://github.com/alexa-js/alexa-utterances/issues/6).
     1. Next
   1. Configuration
