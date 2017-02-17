@@ -44,13 +44,21 @@ if ( config.KB_port ) {
 config.utterances = {
     'onTap': [
         "what { |beer} is on { |tap}",
-        "what { |beer} is pouring"
+        "what { |beer} is pouring",
+        "what { |beer} is pouring on { |tap} number {TapNumber}"
     ],
     'volume': [
-        "what percent is left { |in the keg}",
-        "what percent is the keg at",
-        "what is the {keg|beer} percentage",
-        "how much {beer|} is {left|there}"
+        "how much {beer|} is {left|there}",
+        "how much {beer|} is {left|there} in {pints|litres|percent|VolumeUnits}",
+        "how much {beer|} is {left|there} in {keg|tap} { |number} {TapNumber}",
+        "how much {beer|} is {left|there} in {keg|tap} { |number} {TapNumber} {reported|} in {VolumeUnits}",
+        "how many {VolumeUnits} are left { |in the keg}",
+        "how many {VolumeUnits} are left { |in the keg} in {keg|tap} { |number} {TapNumber}",
+        "what {VolumeUnits} is left { |in the keg}",
+        "what {VolumeUnits} is the keg at",
+        "what is the {keg|beer} {VolumeUnits}",
+        "what {VolumeUnits} is left in {keg|tap} { |number} {TapNumber}",
+        "what is the {keg|beer} {VolumeUnits} in {keg|tap} { |number} {TapNumber}",
     ],
     'Help': [
         "{to |} help {me |}",
