@@ -60,6 +60,15 @@ config.utterances = {
         "what {VolumeUnits} is left in {keg|tap} { |number} {TapNumber}",
         "what is the {keg|beer} {VolumeUnits} in {keg|tap} { |number} {TapNumber}",
     ],
+    'recentSession': [
+        "tell me about the last session",
+        "whats been happening",
+        "whats happening",
+        "whats been pouring",
+        "when was the last session",
+        "who has been drinking",
+        "who has been drinking recently"
+    ],
     'Help': [
         "{to |} help {me |}",
         "for help"
