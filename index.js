@@ -4,6 +4,11 @@ var alexa = require('alexa-app');
 
 var KB = require('./lib/kegbot');
 
+// Pull in time package
+var javascript_time_ago = require('javascript-time-ago')
+javascript_time_ago.locale(require('javascript-time-ago/locales/en'))
+const time_ago_english = new javascript_time_ago('en-US')
+
 // Reloaded by hotswap when code has changed (by alexa-app-server)
 module.change_code = 1;
 
@@ -137,6 +142,64 @@ app.intent('Volume', {
                 replyWith(speechOutput, response);
             } else {
                 replyWith(appName + ' has no beer on tap', response);
+            }
+        });
+        return false;
+    });
+
+app.intent('RecentSession', {
+    "slots":{},
+    "utterances":config.utterances.recentSession},
+    function(request,response) {
+        console.log('REQUEST: recentSession Intent');
+        KB.getCurrentDrinks(function (err, drinks) {
+            if (err) {
+                replyWith(appName + ' is unable to connect to your keg bot server', response);
+            } else if (drinks) {
+                session_id=-1;
+                keg={};
+                drinks.forEach(function (drink, index) {
+                    if (drink == undefined) { return; }
+                    if (session_id == -1) {
+                        session_id=drink.session_id;
+                    }
+                    if (session_id != drink.session_id) {
+                        return;
+                    }
+                    if ( ! keg[drink.keg.id] ) {
+                        keg[drink.keg.id] = {};
+                        keg[drink.keg.id].user_ids = [];
+                        keg[drink.keg.id].volume = 0;
+                    }
+                    keg[drink.keg.id].name = drink.keg.beverage.name;
+                    keg[drink.keg.id].user_ids[drink.user_id] += 1;
+                    keg[drink.keg.id].volume += drink.volume_ml;
+                    keg[drink.keg.id].start = drink.session.start_time;
+                });
+
+                for (var key in keg) {
+                    speechOutput = appName + ' poured ' + keg[key].volume;
+                    speechOutput += ' milliliters of ' + keg[key].name + ' for user';
+                    var plural = 0;
+                    if ( Object.keys(keg[key].user_ids).length > 1 ){
+                        speechOutput += 's';
+                        plural = Object.keys(keg[key].user_ids).length - 1;
+                    }
+                    Object.keys(keg[key].user_ids).forEach( function (user, index) {
+                        if (plural >= 1 && plural == index) {
+                            speechOutput += ' and';
+                        }
+                        speechOutput += ' ' + user;
+                    });
+                    // Convert the date format to epoch then realtive
+                    var parts = keg[key].start.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
+                    var date = Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]);
+                    speechOutput += ' on ' + time_ago_english.format(date) + '. ';
+                }
+
+                replyWith(speechOutput, response);
+            } else {
+                replyWith(appName + ' has not had any sessions', response);
             }
         });
         return false;
