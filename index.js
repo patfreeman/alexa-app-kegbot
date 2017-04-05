@@ -194,7 +194,7 @@ app.intent('RecentSession', {
                     // Convert the date format to epoch then realtive
                     var parts = keg[key].start.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
                     var date = Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]);
-                    speechOutput += ' on ' + time_ago_english.format(date) + '. ';
+                    speechOutput += time_ago_english.format(date) + '. ';
                 }
 
                 replyWith(speechOutput, response);
