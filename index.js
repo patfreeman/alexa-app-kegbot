@@ -3,6 +3,7 @@ var config = require('./config');
 var alexa = require('alexa-app');
 
 var KB = require('./lib/kegbot');
+var helper = require('./lib/helper');
 
 // Pull in time package
 var javascript_time_ago = require('javascript-time-ago')
@@ -97,6 +98,9 @@ app.intent('Volume', {
         console.log('REQUEST: volume Intent');
         var TapNumber = request.slot('TapNumber');
         var Units = request.slot('VolumeUnits');
+        if (Units == undefined && config.units == 'imperial') {
+            Units = "pints";
+        }
         KB.getCurrentKeg(function (err, kegs) {
             if (err) {
                 replyWith(appName + ' is unable to connect to your keg bot server', response);
@@ -178,8 +182,8 @@ app.intent('RecentSession', {
                 });
 
                 for (var key in keg) {
-                    speechOutput = appName + ' poured ' + keg[key].volume;
-                    speechOutput += ' milliliters of ' + keg[key].name + ' for user';
+                    speechOutput = appName + ' poured ' + helper.volume(keg[key].volume);
+                    speechOutput += ' of ' + keg[key].name + ' for user';
                     var plural = 0;
                     if ( Object.keys(keg[key].user_ids).length > 1 ){
                         speechOutput += 's';
@@ -194,7 +198,7 @@ app.intent('RecentSession', {
                     // Convert the date format to epoch then realtive
                     var parts = keg[key].start.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
                     var date = Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]);
-                    speechOutput += time_ago_english.format(date) + '. ';
+                    speechOutput += ' ' + time_ago_english.format(date) + '. ';
                 }
 
                 replyWith(speechOutput, response);
