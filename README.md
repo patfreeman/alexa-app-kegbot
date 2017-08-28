@@ -6,7 +6,7 @@ alexa-app-kegbot is an [alexa-app](https://github.com/matt-kruse/alexa-app) modu
 For a more corporate friendly setup, maybe the Lambda version is better: [alexa-lambda-kegbot](https://github.com/patfreeman/alexa-lambda-kegbot)
 
 ### Requirements
-* node - NodeJS http://nodejs.org
+* node (v0.12 or greater) - NodeJS http://nodejs.org 
 * request - NodeJS package https://www.npmjs.com/package/request
 * alexa-app - NodeJS package https://www.npmjs.com/package/alexa-app
 * alexa-app-server - NodeJS package https://www.npmjs.com/package/alexa-app-server used to host the app
